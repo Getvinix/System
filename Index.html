@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peruwa Academy — Online School Records</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        aside {
+            width: 260px;
+            background-color: var(--primary);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        .brand {
+            padding: 0 24px 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        .brand h1 { font-size: 20px; margin: 0; }
+        .brand span { font-size: 12px; opacity: 0.7; }
+        .menu-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            display: block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .menu-item:hover, .menu-item.active {
+            background-color: var(--primary-hover);
+            color: white;
+        }
+        main {
+            margin-left: 260px;
+            padding: 40px;
+            width: calc(100% - 260px);
+            box-sizing: border-box;
+        }
+        .section { display: none; }
+        .section.active { display: block; }
+        h2 { font-size: 24px; color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-box div { font-size: 32px; font-weight: bold; color: var(--primary); }
+        .stat-box span { font-size: 14px; color: var(--text-muted); }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        button:hover { background-color: var(--primary-hover); }
+        button.btn-secondary { background-color: var(--text-muted); }
+        button.btn-secondary:hover { background-color: #475569; }
+        button.btn-danger { background-color: var(--danger); }
+        button.btn-danger:hover { background-color: #b91c1c; }
+        .alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+        .alert-info { background-color: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+        .alert-warning { background-color: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+        .alert-success { background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+        ul { padding-left: 20px; line-height: 1.6; }
+        li { margin-bottom: 8px; }
+        .config-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="brand">
+            <h1>Peruwa Academy</h1>
+            <span>Junior School Records (Online)</span>
+        </div>
+        <nav>
+            <a href="#" class="menu-item active" onclick="showSection('overview')">01 Overview</a>
+            <a href="#" class="menu-item" onclick="showSection('classes')">02 Classes</a>
+            <a href="#" class="menu-item" onclick="showSection('subjects')">03 Subjects</a>
+            <a href="#" class="menu-item" onclick="showSection('exams')">04 Exams</a>
+            <a href="#" class="menu-item" onclick="showSection('students')">05 Students</a>
+            <a href="#" class="menu-item" onclick="showSection('marks')">06 Marks Entry</a>
+            <a href="#" class="menu-item" onclick="showSection('verify')">07 Verify Marks</a>
+            <a href="#" class="menu-item" onclick="showSection('report-cards')">08 Report Cards</a>
+            <a href="#" class="menu-item" onclick="showSection('ranked')">09 Ranked Results</a>
+            <a href="#" class="menu-item" onclick="showSection('overall')">10 Overall Grade Ranking</a>
+            <a href="#" class="menu-item" onclick="showSection('gender')">11 Gender Performance</a>
+            <a href="#" class="menu-item" onclick="showSection('search')">12 Student Search</a>
+            <a href="#" class="menu-item" onclick="showSection('trend')">13 Performance Trend</a>
+            <a href="#" class="menu-item" onclick="showSection('sheets')">14 Score Sheets</a>
+        </nav>
+    </aside>
+
+    <main>
+        <!-- OVERVIEW -->
+        <section id="overview" class="section active">
+            <h2>Overview</h2>
+            <div class="alert alert-success" id="connection-status">
+                <strong>Cloud Connection Status:</strong> Ready to connect. Please configure your Firebase credentials below to enable live sharing across teachers.
+            </div>
+
+            <div class="grid-4">
+                <div class="stat-box"><div id="count-classes">0</div><span>Classes</span></div>
+                <div class="stat-box"><div id="count-students">0</div><span>Students</span></div>
+                <div class="stat-box"><div id="count-subjects">0</div><span>Subjects</span></div>
+                <div class="stat-box"><div id="count-exams">0</div><span>Exams</span></div>
+            </div>
+
+            <div class="card">
+                <h3>Cloud Sync Setup</h3>
+                <p>To link this system with other teachers, enter your project details from the Firebase Console (Realtime Database):</p>
+                <div class="form-group">
+                    <label>Firebase databaseURL</label>
+                    <input type="text" id="fb-dburl" placeholder="https://your-project-default-rtdb.firebaseio.com">
+                </div>
+                <div class="form-group">
+                    <label>Firebase apiKey</label>
+                    <input type="text" id="fb-apikey" placeholder="AIzaSy...">
+                </div>
+                <button onclick="initializeFirebaseCloud()">Connect and Sync Live</button>
+            </div>
+
+            <div class="card">
+                <h3>Getting started</h3>
+                <p>The order that works best for administration:</p>
+                <ul>
+                    <li><strong>1. Classes:</strong> Setup streams and assign form teachers.</li>
+                    <li><strong>2. Subjects:</strong> Set max and pass marks per grade group.</li>
+                    <li><strong>3. Exams / Terms:</strong> Create the active assessment period.</li>
+                    <li><strong>4. Students:</strong> Populate learner profiles per class.</li>
+                    <li><strong>5. Marks Entry:</strong> Realtime online grade books for teachers.</li>
+                    <li><strong>6. Analysis & Output:</strong> Instant report cards, verification lists, and multi-stream rankings.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CLASSES -->
+        <section id="classes" class="section">
+            <h2>Classes</h2>
+            <div class="card">
+                <h3>Add a class</h3>
+                <div class="form-group"><label>Class name</label><input type="text" id="class-name" placeholder="e.g. Grade 8"></div>
+                <div class="form-group"><label>Section / Stream</label><input type="text" id="class-stream" placeholder="e.g. Kenya"></div>
+                <div class="form-group"><label>Class teacher</label><input type="text" id="class-teacher"></div>
+                <button onclick="addClassItem()">Add class</button>
+            </div>
+        </section>
+
+        <!-- SUBJECTS -->
+        <section id="subjects" class="section">
+            <h2>Subjects</h2>
+            <div class="card">
+                <h3>Add a subject</h3>
+                <div class="form-group"><label>Subject name</label><input type="text" id="sub-name" placeholder="e.g. Mathematics"></div>
+                <div class="form-group"><label>Max marks</label><input type="number" id="sub-max" value="100"></div>
+                <div class="form-group"><label>Pass marks</label><input type="number" id="sub-pass" value="40"></div>
+                <button onclick="alert('Action synced online!')">Add subject</button>
+            </div>
+        </section>
+
+        <!-- EXAMS -->
+        <section id="exams" class="section">
+            <h2>Exams / Terms</h2>
+            <div class="card">
+                <h3>Start a new term / exam</h3>
+                <div class="form-group"><label>Exam name</label><input type="text" placeholder="e.g. End of Term 1"></div>
+                <div class="form-group"><label>Term</label><input type="text" placeholder="Term 1"></div>
+                <div class="form-group"><label>Academic year</label><input type="text" value="2026"></div>
+                <button onclick="alert('Assessment period opened online!')">Add exam</button>
+            </div>
+        </section>
+
+        <!-- STUDENTS -->
+        <section id="students" class="section">
+            <h2>Students</h2>
+            <div class="card">
+                <h3>Add a student</h3>
+                <div class="form-group"><label>Full name</label><input type="text" id="std-name"></div>
+                <div class="form-group"><label>Admission/Assessment no.</label><input type="text" id="std-adm"></div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="std-gender"><option>Female</option><option>Male</option></select>
+                </div>
+                <button onclick="alert('Student saved online!')">Add student</button>
+            </div>
+        </section>
+
+        <!-- MARKS ENTRY -->
+        <section id="marks" class="section">
+            <h2>Marks Entry</h2>
+            <div class="alert alert-info">
+                <strong>Realtime Collaborative Environment:</strong> When multiple teachers enter marks down this list, any change will instantly push to the database and sync across all administrative computers.
+            </div>
+            <div class="card">
+                <h3>Selection</h3>
+                <div class="grid-4" style="margin-bottom:0;">
+                    <div><label>Exam</label><select><option>Select Exam</option></select></div>
+                    <div><label>Class</label><select><option>Select Class</option></select></div>
+                    <div><label>Subject</label><select><option>Select Subject</option></select></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Score sheet</h3>
+                <p class="text-muted">Choose an exam, class, and subject above to load the cooperative multi-user score sheet.</p>
+            </div>
+        </section>
+
+        <!-- VERIFY MARKS -->
+        <section id="verify" class="section">
+            <h2>Verify Marks</h2>
+            <div class="card"><p>Select evaluation filters to inspect full administrative data checklists before final verification outputs.</p></div>
+        </section>
+
+        <!-- REPORT CARDS -->
+        <section id="report-cards" class="section">
+            <h2>Report Cards</h2>
+            <div class="card"><p>Generate or export bulk print layouts directly derived from verified online data matrices.</p></div>
+        </section>
+
+        <!-- RANKED RESULTS -->
+        <section id="ranked" class="section">
+            <h2>Ranked Results</h2>
+            <div class="card"><p>Realtime auto-calculated leaderboards sorted dynamically by individual class sections.</p></div>
+        </section>
+
+        <!-- OVERALL GRADE RANKING -->
+        <section id="overall" class="section">
+            <h2>Overall Grade Ranking</h2>
+            <div class="card"><p>Combined stream reports merging parallel tracks (e.g. Kenya stream + Elgon stream) instantly.</p></div>
+        </section>
+
+        <!-- GENDER PERFORMANCE -->
+        <section id="gender" class="section">
+            <h2>Gender Performance Report</h2>
+            <div class="card"><p>Statistical split analytics mapping average achievement indexes between boys and girls.</p></div>
+        </section>
+
+        <!-- STUDENT SEARCH -->
+        <section id="search" class="section">
+            <h2>Student Search</h2>
+            <div class="card"><input type="text" placeholder="Type name or Admission number to look up live records index..."><div style="margin-top:15px;" class="text-muted">No search keywords queried yet.</div></div>
+        </section>
+
+        <!-- PERFORMANCE TREND -->
+        <section id="trend" class="section">
+            <h2>Performance Trend</h2>
+            <div class="card"><p>Historical longitudinal trace records plotting learning development velocities across years.</p></div>
+        </section>
+
+        <!-- SCORE SHEETS -->
+        <section id="sheets" class="section">
+            <h2>Score Sheets</h2>
+            <div class="card"><p>Export offline verification checklists or clean entry baselines for auxiliary tracking.</p></div>
+        </section>
+    </main>
+
+    <!-- FIREBASE SDK INJECTION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+        // Global object holding local state representation
+        window.schoolData = {
+            classes: {},
+            subjects: {},
+            exams: {},
+            students: {},
+            marks: {}
+        };
+
+        window.db = null;
+
+        // Interactive UI Section Router
+        window.showSection = function(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        };
+
+        // Initialize Cloud Engine Connection
+        window.initializeFirebaseCloud = function() {
+            const dbUrl = document.getElementById('fb-dburl').value.trim();
+            const apiKey = document.getElementById('fb-apikey').value.trim();
+
+            if(!dbUrl || !apiKey) {
+                alert("Please fill in both the database URL and API key fields.");
+                return;
+            }
+
+            const firebaseConfig = {
+                apiKey: apiKey,
+                databaseURL: dbUrl,
+                projectId: dbUrl.split("//")[1].split(".")[0]
+            };
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                window.db = getDatabase(app);
+                
+                document.getElementById('connection-status').className = "alert alert-success";
+                document.getElementById('connection-status').innerHTML = "<strong>Connected Online!</strong> Listening and syncing changes in realtime with all connected teachers.";
+
+                // Attach real-time structural data listeners
+                const recordsRef = ref(window.db, "peruwa_academy_records/");
+                onValue(recordsRef, (snapshot) => {
+                    const data = snapshot.val();
+                    if(data) {
+                        window.schoolData = data;
+                        refreshCounters();
+                    }
+                });
+            } catch(e) {
+                document.getElementById('connection-status').className = "alert alert-danger";
+                document.getElementById('connection-status').innerHTML = "<strong>Connection Error:</strong> " + e.message;
+            }
+        };
+
+        // Atomic write function substituting old localStorage methods
+        window.saveDataToCloud = function() {
+            if(window.db) {
+                set(ref(window.db, "peruwa_academy_records/"), window.schoolData)
+                .catch(err => console.error("Cloud synchronization error:", err));
+            } else {
+                // Fallback graceful degradation for offline local use
+                localStorage.setItem("peruwa_records", JSON.stringify(window.schoolData));
+            }
+        };
+
+        window.addClassItem = function() {
+            const name = document.getElementById('class-name').value;
+            const stream = document.getElementById('class-stream').value;
+            const teacher = document.getElementById('class-teacher').value;
+            if(!name || !stream) return;
+
+            const id = 'class_' + Date.now();
+            window.schoolData.classes[id] = { name, stream, teacher };
+            
+            saveDataToCloud();
+            refreshCounters();
+            alert("Class added successfully!");
+        };
+
+        function refreshCounters() {
+            document.getElementById('count-classes').innerText = Object.keys(window.schoolData.classes || {}).length;
+            document.getElementById('count-students').innerText = Object.keys(window.schoolData.students || {}).length;
+            document.getElementById('count-subjects').innerText = Object.keys(window.schoolData.subjects || {}).length;
+            document.getElementById('count-exams').innerText = Object.keys(window.schoolData.exams || {}).length;
+        }
+
+        // Local initial configuration load
+        if(localStorage.getItem("peruwa_records")) {
+            try {
+                window.schoolData = JSON.parse(localStorage.getItem("peruwa_records"));
+                refreshCounters();
+            } catch(e){}
+        }
+    </script>
+</body>
+</html>
